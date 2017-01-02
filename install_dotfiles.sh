@@ -1,7 +1,6 @@
-#!/usr/bin/bash
+#!/bin/bash
 
 # copied from https://github.com/holman/dotfiles/blob/master/script/bootstrap
-cd "$(dirname "$0")/.."
 DOTFILES_ROOT=$(pwd -P)
 
 set -e
@@ -106,28 +105,29 @@ install_dotfiles () {
 
   local overwrite_all=false backup_all=false skip_all=false
   mkdir -p "$HOME/.oh-my-zsh/themes/"
-  mkdir -p "$HOME/.config/QtProject/qtcreator/styles"
-  mkdir -p "$HOME/.config/sublime-text-3/Packages/User"
+  mkdir -p "$HOME/.config/QtProject/qtcreator/styles/"
+  mkdir -p "$HOME/.config/sublime-text-3/Packages/User/"
+  mkdir -p "$HOME/.fonts/"
 
   dst="$HOME/.$(basename "${src%.*}")"
-  link_file "git/.gitconfig" "$HOME/.gitconfig"
-  link_file "git/.gitexcludes" "$HOME/.gitexcludes"
-  link_file "tig/.tigrc" "$HOME/.tigrc"
-  link_file "vim/.vimrc" "$HOME/.vimrc"
-  link_file "vim/.vim" "$HOME/.vim"
-  link_file "zsh/.zshrc" "$HOME/.zshrc"
-  link_file "zsh/agnoster-mod.zsh-theme" "$HOME/.oh-my-zsh/themes/agnoster-mod.zsh-theme"
-  link_file "qt-creator/monokai_copy.xml" "$HOME/.config/QtProject/qtcreator/styles/monokai_copy.xml"
-  link_file "qt-creator/monokai_night_shift_v2_copy.xml" "$HOME/.config/QtProject/qtcreator/styles/monokai_night_shift_v2_copy.xml"
-  link_file "sublime-text-3" "$HOME/.config/sublime-text-3/Packages/User"
+  link_file "$DOTFILES_ROOT/git/.gitconfig" "$HOME/.gitconfig"
+  link_file "$DOTFILES_ROOT/git/.gitexcludes" "$HOME/.gitexcludes"
+  link_file "$DOTFILES_ROOT/tig/.tigrc" "$HOME/.tigrc"
+  link_file "$DOTFILES_ROOT/vim/.vimrc" "$HOME/.vimrc"
+  link_file "$DOTFILES_ROOT/vim/.vim" "$HOME/.vim"
+  link_file "$DOTFILES_ROOT/zsh/.zshrc" "$HOME/.zshrc"
+  link_file "$DOTFILES_ROOT/zsh/agnoster-mod.zsh-theme" "$HOME/.oh-my-zsh/themes/agnoster-mod.zsh-theme"
+  link_file "$DOTFILES_ROOT/qt-creator/monokai_copy.xml" "$HOME/.config/QtProject/qtcreator/styles/monokai_copy.xml"
+  link_file "$DOTFILES_ROOT/qt-creator/monokai_night_shift_v2_copy.xml" "$HOME/.config/QtProject/qtcreator/styles/monokai_night_shift_v2_copy.xml"
+  link_file "$DOTFILES_ROOT/sublime-text-3" "$HOME/.config/sublime-text-3/Packages/User"
   info '    done'
 }
 
 install_fonts () {
-	info 'installing fonts'
-	cp -f fonts/* $HOME/.fonts
-	sudo fc-cache -fv
-	info '    done'
+  info 'installing fonts'
+  find "$DOTFILES_ROOT/fonts" -name "*.ttf" -exec cp -f {} $HOME/.fonts \;
+  sudo fc-cache -fv
+  info '    done'
 }
 
 install_dotfiles
