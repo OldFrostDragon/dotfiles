@@ -126,7 +126,7 @@ install_dotfiles () {
 install_fonts () {
   info 'installing fonts'
   find "$DOTFILES_ROOT/fonts" -name "*.ttf" -exec cp -f {} $HOME/.fonts \;
-  sudo fc-cache -fv
+  fc-cache -fv
   info '    done'
 }
 
