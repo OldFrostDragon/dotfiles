@@ -1,0 +1,26 @@
+{
+	"bootstrapped": true,
+	"in_process_packages":
+	[
+	],
+	"installed_packages":
+	[
+		"Anaconda",
+		"ApplySyntax",
+		"Boxy Theme",
+		"CMake",
+		"Dockerfile Syntax Highlighting",
+		"Markdown Extended",
+		"Package Control",
+		"PlainNotes",
+		"PlainTasks",
+		"Pretty JSON",
+		"QMakeProject",
+		"Rust Enhanced",
+		"RustAutoComplete",
+		"RustCodeFormatter",
+		"SideBarEnhancements",
+		"Spice",
+		"Sublimerge Pro"
+	]
+}

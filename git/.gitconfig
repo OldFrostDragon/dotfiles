@@ -1,0 +1,63 @@
+[merge]
+       keepBackup = false;
+       tool = p4merge
+
+[mergetool]
+       prompt = false
+
+[mergetool "p4merge"]
+       cmd = p4merge "$BASE" "$LOCAL" "$REMOTE" "$MERGED"
+       keepTemporaries = false
+       trustExitCode = false
+       keepBackup = false
+[diff]
+       tool = p4merge
+[difftool]
+       prompt = false
+[difftool "p4merge"]
+       cmd = p4merge "$LOCAL" "$REMOTE"
+       keepTemporaries = false
+       trustExitCode = false
+       keepBackup = false
+[user]
+	name = OldFrostDragon
+	email = shevchukvb@gmail.com
+[user]
+[push]
+	default = simple
+[core]
+	autocrlf = input
+	excludesfile = ~/.gitexcludes
+
+[alias]
+    lg = log --graph --pretty=format:'%C(red)%h%C(reset) -%C(yellow)%d%C(reset) %s %C(green)(%cr) %C(blue)<%an>%C(reset)' --abbrev-commit --date=relative
+[format]
+        pretty = "Commit:  %C(yellow)%H%nAuthor:  %C(green)%aN <%aE>%nDate:    (%C(red)%ar%Creset) %ai%nSubject: %s%n%n%b"
+
+[color "diff"]
+       plain = normal
+       meta = bold
+       frag = cyan
+       old = red
+       new = green
+       commit = yellow
+       whitespace = normal red
+[color "branch"]
+       current = green
+       local = normal
+       remote = red
+       plain = normal
+[color "status"]
+       header = normal
+       added = red
+       updated = green
+       changed = red
+       untracked = red
+       nobranch = red
+[color "grep"]
+       match = normal
+[color "interactive"]
+       prompt = normal
+       header = normal
+       help = normal
+       error = normal
