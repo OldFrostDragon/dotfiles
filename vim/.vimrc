@@ -111,6 +111,24 @@ set nobackup
 set nowb
 set noswapfile
 
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Hotkeys
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Copy to 'clipboard registry'
+set clipboard=unnamed
+
+" normal copy/paste
+" Select something in visual mode. Then Ctrl-c (copy), Ctrl-x (cut).
+" After the operation you are in insert mode. So just navigate to the place
+" where you want to paste and do Ctrl-v
+" When in insert mode Ctrl-y deletes the current line, Ctrl-z undo last
+" change.
+vmap <C-c> y<Esc>i
+vmap <C-x> d<Esc>i
+imap <C-v> <Esc>pi
+imap <C-y> <Esc>ddi
+map <C-z> <Esc>
+imap <C-z> <Esc>ui
 
 """"""""""""""""""""""""""""""
 " => Status line
