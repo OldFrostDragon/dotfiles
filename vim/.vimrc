@@ -77,7 +77,10 @@ set tm=500
 syntax enable 
 
 try
-    colorscheme desert
+    let g:gruvbox_italic=1
+    colorscheme gruvbox
+    " gruvbox specific settings
+
 catch
 endtry
 
@@ -129,6 +132,7 @@ set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
 
 Plugin 'vim-airline/vim-airline'
+Plugin 'morhetz/gruvbox'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
