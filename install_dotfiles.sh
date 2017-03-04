@@ -108,6 +108,7 @@ install_dotfiles () {
   mkdir -p "$HOME/.config/QtProject/qtcreator/styles/"
   mkdir -p "$HOME/.config/sublime-text-3/Packages/User/"
   mkdir -p "$HOME/.fonts/"
+  mkdir -p "$HOME/.config/mc"
 
   dst="$HOME/.$(basename "${src%.*}")"
   link_file "$DOTFILES_ROOT/git/.gitconfig" "$HOME/.gitconfig"
@@ -120,13 +121,14 @@ install_dotfiles () {
   link_file "$DOTFILES_ROOT/qt-creator/monokai_copy.xml" "$HOME/.config/QtProject/qtcreator/styles/monokai_copy.xml"
   link_file "$DOTFILES_ROOT/qt-creator/monokai_night_shift_v2_copy.xml" "$HOME/.config/QtProject/qtcreator/styles/monokai_night_shift_v2_copy.xml"
   link_file "$DOTFILES_ROOT/sublime-text-3" "$HOME/.config/sublime-text-3/Packages/User"
+  link_file "$DOTFILES_ROOT/mc" "$HOME/.config/mc"
   info '    done'
 }
 
 install_fonts () {
   info 'installing fonts'
   find "$DOTFILES_ROOT/fonts" -name "*.ttf" -exec cp -f {} $HOME/.fonts \;
-  fc-cache -fv
+  fc-cache -fv > /dev/null
   info '    done'
 }
 

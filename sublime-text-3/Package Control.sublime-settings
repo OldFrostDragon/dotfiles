@@ -10,6 +10,7 @@
 		"Boxy Theme",
 		"CMake",
 		"Dockerfile Syntax Highlighting",
+		"Indent XML",
 		"Markdown Extended",
 		"Package Control",
 		"PlainNotes",
@@ -20,7 +21,9 @@
 		"RustAutoComplete",
 		"RustCodeFormatter",
 		"SideBarEnhancements",
-		"Spice",
-		"Sublimerge Pro"
+		"SPICE Circuit Simulator",
+		"Sublimerge Pro",
+		"Table Editor",
+		"Theme - Kronuz"
 	]
 }
