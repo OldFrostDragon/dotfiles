@@ -125,10 +125,24 @@ install_dotfiles () {
   info '    done'
 }
 
+show_progress () {
+  pid=$1
+  spin='-\|/'
+
+  i=0
+  while kill -0 $pid 2>/dev/null
+  do
+    i=$(( (i+1) %4 ))
+    printf "\r${spin:$i:1}"
+    sleep .1
+  done
+}
+
 install_fonts () {
   info 'installing fonts'
   find "$DOTFILES_ROOT/fonts" -name "*.ttf" -exec cp -f {} $HOME/.fonts \;
-  fc-cache -fv > /dev/null
+  fc-cache -fv > /dev/null &
+  show_progress $!
   info '    done'
 }
 
