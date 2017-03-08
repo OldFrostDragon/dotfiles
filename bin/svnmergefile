@@ -1,0 +1,85 @@
+#! /usr/bin/env python
+
+'''
+This script search appropriate files for conflicted SVN file and starts p4merge tool for merging
+It require that p4merge should be present in PATH and require exactly one argument -
+name of original file
+'''
+
+from subprocess import Popen, PIPE
+import os
+import re
+import argparse
+import sys
+
+
+def get_conflicted_file_versions(file_name):
+    my_env = os.environ.copy()
+    my_env['LC_MESSAGES'] = 'C'
+
+    # get svn status and check if given file is in conflicted state
+    p = Popen(['svn', 'status', file_name], stdin=PIPE,
+              stdout=PIPE, stderr=PIPE, env=my_env)
+    output, err = p.communicate()
+    if p.returncode != 0 or len(output) == 0:
+        print('failed to get status for %s. Skipped.' % file_name)
+        return ('', '', '')
+    status_regex = re.compile('C\s+{0}'.format(file_name))
+    if not status_regex.search(output):
+        print('{0} is not in conflicted state'.format(file_name))
+        return ('', '', '')
+
+    p = Popen(['svn', 'info', file_name], stdin=PIPE,
+              stdout=PIPE, stderr=PIPE, env=my_env)
+    output, err = p.communicate()
+    if p.returncode != 0:
+        print('file %s in not in conflicted')
+        return ('', '', '')
+
+    # extract conflicted file versions
+    base_file_regex = re.compile(
+        'Conflict Previous Base File:\s+(.*$)', re.MULTILINE)
+    search_result = base_file_regex.search(output)
+    base_file_name = search_result.group(1)
+
+    previous_working_regex = re.compile(
+        'Conflict Previous Working File:\s+(.*$)', re.MULTILINE)
+    search_result = previous_working_regex.search(output)
+    previous_working_filename = search_result.group(1)
+
+    current_base_regex = re.compile(
+        'Conflict Current Base File:\s+(.*$)', re.MULTILINE)
+    search_result = current_base_regex.search(output)
+    current_base_filename = search_result.group(1)
+    return (base_file_name, current_base_filename, previous_working_filename)
+
+
+def run_merge(file_name):
+    input_file = os.path.abspath(file_name)
+    filepath, filename = os.path.split(input_file)
+    if len(filepath) == 0:
+        filepath = '.'
+
+    base_file, mine_file, theirs_file = get_conflicted_file_versions(
+        input_file)
+    if not base_file or not mine_file or not theirs_file:
+        return
+
+    Popen(['p4merge', '-dw', base_file, mine_file, theirs_file, input_file])
+
+
+def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument(
+        "input_file", help="absolute or relative path to file which is in SVN conflicted state", type=str)
+    if len(sys.argv) == 1:
+        parser.print_help()
+        sys.exit(1)
+
+    args = parser.parse_args()
+    file_to_merge = args.input_file
+    run_merge(os.path.abspath(file_to_merge))
+
+
+if __name__ == '__main__':
+    main()

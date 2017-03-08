@@ -122,6 +122,15 @@ install_dotfiles () {
   link_file "$DOTFILES_ROOT/qt-creator/monokai_night_shift_v2_copy.xml" "$HOME/.config/QtProject/qtcreator/styles/monokai_night_shift_v2_copy.xml"
   link_file "$DOTFILES_ROOT/sublime-text-3" "$HOME/.config/sublime-text-3/Packages/User"
   link_file "$DOTFILES_ROOT/mc" "$HOME/.config/mc"
+
+  # create symlinks to bin scripts
+  for src in $(find -H "$DOTFILES_ROOT/bin" -maxdepth 1 -type f)
+  do
+    file_from_src=$(basename $src)
+    dst="/usr/local/bin/$file_from_src"
+    link_file "$src" "$dst"
+  done
+
   info '    done'
 }
 
@@ -140,9 +149,9 @@ show_progress () {
 
 install_fonts () {
   info 'installing fonts'
-  find "$DOTFILES_ROOT/fonts" -name "*.ttf" -exec cp -f {} $HOME/.fonts \;
-  fc-cache -fv > /dev/null &
-  show_progress $!
+  # find "$DOTFILES_ROOT/fonts" -name "*.ttf" -exec cp -f {} $HOME/.fonts \;
+  # fc-cache -fv > /dev/null &
+  # show_progress $!
   info '    done'
 }
 
