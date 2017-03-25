@@ -149,11 +149,28 @@ show_progress () {
 
 install_fonts () {
   info 'installing fonts'
-  # find "$DOTFILES_ROOT/fonts" -name "*.ttf" -exec cp -f {} $HOME/.fonts \;
-  # fc-cache -fv > /dev/null &
-  # show_progress $!
+  #find "$DOTFILES_ROOT/fonts" -name "*.ttf" -exec cp -f {} $HOME/.fonts \;
+  #fc-cache -fv > /dev/null &
+  #show_progress $!
   info '    done'
+}
+
+install_zsh_plugins() {
+  if [[ -d "$HOME/.oh-my-zsh" ]]; then
+    if [ ! -d "$HOME/.oh-my-zsh/custom/plugins/zsh-autosuggestions" ]; then
+        info 'Install zsh-autosuggestions'
+        git clone git://github.com/zsh-users/zsh-autosuggestions $HOME/.oh-my-zsh/custom/plugins/zsh-autosuggestions
+        info '    done'
+    fi
+
+    if [ ! -d "$HOME/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting" ]; then
+        info 'Install zsh-syntax-highlighting'
+        git clone https://github.com/zsh-users/zsh-syntax-highlighting.git $HOME/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting
+        info '    done'
+    fi
+  fi
 }
 
 install_dotfiles
 install_fonts
+install_zsh_plugins
