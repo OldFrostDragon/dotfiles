@@ -58,6 +58,10 @@ plugins=(git docker svn zsh-autosuggestions zsh-syntax-highlighting)
 
 source $ZSH/oh-my-zsh.sh
 
+# zsh-autosuggestions
+ZSH_AUTOSUGGEST_BUFFER_MAX_SIZE=15
+ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=240" # gray highlight
+
 # You may need to manually set your language environment
 # export LANG=en_US.UTF-8
 
