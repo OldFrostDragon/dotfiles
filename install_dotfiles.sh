@@ -122,6 +122,7 @@ install_dotfiles () {
   link_file "$DOTFILES_ROOT/qt-creator/monokai_night_shift_v2_copy.xml" "$HOME/.config/QtProject/qtcreator/styles/monokai_night_shift_v2_copy.xml"
   link_file "$DOTFILES_ROOT/sublime-text-3" "$HOME/.config/sublime-text-3/Packages/User"
   link_file "$DOTFILES_ROOT/mc" "$HOME/.config/mc"
+  link_file "$DOTFILES_ROOT/tmux/.tmux.conf" "$HOME/.tmux.conf"
 
   # create symlinks to bin scripts
   for src in $(find -H "$DOTFILES_ROOT/bin" -maxdepth 1 -type f)
