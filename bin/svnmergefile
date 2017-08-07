@@ -24,8 +24,8 @@ def get_conflicted_file_versions(file_name):
     if p.returncode != 0 or len(output) == 0:
         print('failed to get status for %s. Skipped.' % file_name)
         return ('', '', '')
-    status_regex = re.compile('C\s+{0}'.format(file_name))
-    if not status_regex.search(output):
+    status_regex = re.compile('C[M]?\s+{0}'.format(file_name))
+    if not status_regex.search(output.decode('utf-8')):
         print('{0} is not in conflicted state'.format(file_name))
         return ('', '', '')
 
@@ -39,17 +39,17 @@ def get_conflicted_file_versions(file_name):
     # extract conflicted file versions
     base_file_regex = re.compile(
         'Conflict Previous Base File:\s+(.*$)', re.MULTILINE)
-    search_result = base_file_regex.search(output)
+    search_result = base_file_regex.search(output.decode('utf-8'))
     base_file_name = search_result.group(1)
 
     previous_working_regex = re.compile(
         'Conflict Previous Working File:\s+(.*$)', re.MULTILINE)
-    search_result = previous_working_regex.search(output)
+    search_result = previous_working_regex.search(output.decode('utf-8'))
     previous_working_filename = search_result.group(1)
 
     current_base_regex = re.compile(
         'Conflict Current Base File:\s+(.*$)', re.MULTILINE)
-    search_result = current_base_regex.search(output)
+    search_result = current_base_regex.search(output.decode('utf-8'))
     current_base_filename = search_result.group(1)
     return (base_file_name, current_base_filename, previous_working_filename)
 
