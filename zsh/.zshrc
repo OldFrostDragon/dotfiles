@@ -87,3 +87,5 @@ ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=240" # gray highlight
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 alias svn-p4diff="svn diff --diff-cmd svndiffwrap"
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh

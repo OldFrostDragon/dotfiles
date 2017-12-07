@@ -12,6 +12,7 @@
        keepBackup = false
 [diff]
        tool = p4merge
+	submodule = log
 [difftool]
        prompt = false
 [difftool "p4merge"]
@@ -61,3 +62,5 @@
        header = normal
        help = normal
        error = normal
+[status]
+	submoduleSummary = true
