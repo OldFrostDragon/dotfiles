@@ -245,4 +245,4 @@ build_prompt() {
   prompt_end
 }
 
-PROMPT='%{%f%b%k%}$(build_prompt)'$'\n %{$fg_bold[cyan]%}╰─⯈%{$reset_color%} '
+PROMPT='%{%f%b%k%}$(build_prompt)'$'\n %{$fg_bold[cyan]%}╰─➢%{$reset_color%} '
