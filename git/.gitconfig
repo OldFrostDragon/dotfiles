@@ -1,39 +1,84 @@
+[user]
+    name = OldFrostDragon
+    email = shevchukvb@gmail.com
+
+[core]
+    autocrlf = input
+    excludesfile = ~/.gitexcludes
+    editor = vim
+
+[credential]
+    helper = cache --timeout=300
+
+[status]
+    submoduleSummary = true
+
+[push]
+    default = simple
+    ; Check that all submodules have been properly pushed before pushing the
+    ; main project.
+    recurseSubmodules = check
+
+[rerere]
+    enabled = true
+
+[rebase]
+    ; Automatically stash before a rebase and unstash afterwards.
+    autoStash = true
+    
 [merge]
-       keepBackup = false;
-       tool = p4merge
+    keepBackup = false;
+    tool = p4merge
 
 [mergetool]
-       prompt = false
+    prompt = false
 
 [mergetool "p4merge"]
-       cmd = p4merge "$BASE" "$LOCAL" "$REMOTE" "$MERGED"
-       keepTemporaries = false
-       trustExitCode = false
-       keepBackup = false
+    cmd = p4merge "$BASE" "$LOCAL" "$REMOTE" "$MERGED"
+    keepTemporaries = false
+    trustExitCode = false
+    keepBackup = false
+
 [diff]
-       tool = p4merge
-	submodule = log
+    tool = p4merge
+    submodule = log
+    renames = copies
+    renameLimit = 10000
+
 [difftool]
        prompt = false
+       
 [difftool "p4merge"]
        cmd = p4merge "$LOCAL" "$REMOTE"
        keepTemporaries = false
        trustExitCode = false
        keepBackup = false
-[user]
-	name = OldFrostDragon
-	email = shevchukvb@gmail.com
-[user]
-[push]
-	default = simple
-[core]
-	autocrlf = input
-	excludesfile = ~/.gitexcludes
-
+   
 [alias]
-    lg = log --graph --pretty=format:'%C(red)%h%C(reset) -%C(yellow)%d%C(reset) %s %C(green)(%cr) %C(blue)<%an>%C(reset)' --abbrev-commit --date=relative
+    authors = "!git log --pretty=format:%aN | sort | uniq -c | sort -rn"
+    br = branch -vv
+    bra = branch -vv --all
+    conflicts = diff --name-only --diff-filter=U --relative
+    da = diff HEAD
+    ds = diff --staged
+    ignored = ls-files --exclude-standard --ignored --others
+    # logs
+    # lg = log --graph --pretty=format:'%C(red)%h%C(reset) -%C(yellow)%d%C(reset) %s %C(green)(%cr) %C(blue)<%an>%C(reset)' --abbrev-commit --date=relative
+    l = "!git --no-pager log -20 --pretty='format:%C(yellow)%h %C(green)%ai %C(bold blue)%an %C(red)%d%C(reset) %s'; echo"
+    ll = log --pretty='format:%C(yellow)%h %C(green)%ai %C(bold blue)%an %C(red)%d%C(reset) %s'
+    lf = log --name-status --pretty='format:%C(yellow)%h %C(green)%ai %C(bold blue)%an %C(red)%d%C(reset) %s'
+    lp = log --patch --format=fuller
+    lg = log --graph --pretty='format:%C(yellow)%h %C(green)%ai %C(bold blue)%an %C(red)%d%C(reset) %s'
+    lga = log --graph --branches --remotes --tags --pretty='format:%C(yellow)%h %C(green)%ai %C(bold blue)%an %C(red)%d%C(reset) %s'
+    pb = "!git push --set-upstream origin `git rev-parse --abbrev-ref HEAD`"
+    undo = "!git reset --soft HEAD^ && git reset"
+    wip = "!git add --all && git commit -m 'WIP'"
+
+    # merge request checkout from Gitlab. Use 'git mr 5' to checkout merge request with id 5 to local branch
+    mr = !sh -c 'git fetch origin merge-requests/$1/head:mr-origin-$1 && git checkout mr-origin-$1' -
+
 [format]
-        pretty = "Commit:  %C(yellow)%H%nAuthor:  %C(green)%aN <%aE>%nDate:    (%C(red)%ar%Creset) %ai%nSubject: %s%n%n%b"
+    pretty = "Commit:  %C(yellow)%H%nAuthor:  %C(green)%aN <%aE>%nDate:    (%C(red)%ar%Creset) %ai%nSubject: %s%n%n%b"
 
 [color "diff"]
        plain = normal
@@ -43,11 +88,13 @@
        new = green
        commit = yellow
        whitespace = normal red
+
 [color "branch"]
        current = green
        local = normal
        remote = red
        plain = normal
+
 [color "status"]
        header = normal
        added = red
@@ -55,12 +102,12 @@
        changed = red
        untracked = red
        nobranch = red
+
 [color "grep"]
        match = normal
+
 [color "interactive"]
        prompt = normal
        header = normal
        help = normal
        error = normal
-[status]
-	submoduleSummary = true
