@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<style-scheme version="1.0" name="Modnokai Night Shift v2 (copy)">
+<style-scheme version="1.0" name="Modnokai Night Shift v3">
   <style name="Text" foreground="#ffffff" background="#242424"/>
   <style name="Link" foreground="#ffff00"/>
   <style name="Selection" background="#11404c"/>

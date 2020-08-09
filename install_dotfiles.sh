@@ -104,9 +104,7 @@ install_dotfiles () {
   info 'installing dotfiles'
 
   local overwrite_all=false backup_all=false skip_all=false
-  mkdir -p "$HOME/.oh-my-zsh/themes/"
   mkdir -p "$HOME/.config/QtProject/qtcreator/styles/"
-  mkdir -p "$HOME/.config/sublime-text-3/Packages/User/"
   mkdir -p "$HOME/.fonts/"
   mkdir -p "$HOME/.config/mc"
 
@@ -117,10 +115,7 @@ install_dotfiles () {
   link_file "$DOTFILES_ROOT/vim/.vimrc" "$HOME/.vimrc"
   link_file "$DOTFILES_ROOT/vim/.vim" "$HOME/.vim"
   link_file "$DOTFILES_ROOT/zsh/.zshrc" "$HOME/.zshrc"
-  link_file "$DOTFILES_ROOT/zsh/agnoster-mod.zsh-theme" "$HOME/.oh-my-zsh/themes/agnoster-mod.zsh-theme"
-  link_file "$DOTFILES_ROOT/qt-creator/monokai_copy.xml" "$HOME/.config/QtProject/qtcreator/styles/monokai_copy.xml"
-  link_file "$DOTFILES_ROOT/qt-creator/monokai_night_shift_v2_copy.xml" "$HOME/.config/QtProject/qtcreator/styles/monokai_night_shift_v2_copy.xml"
-  link_file "$DOTFILES_ROOT/sublime-text-3" "$HOME/.config/sublime-text-3/Packages/User"
+  link_file "$DOTFILES_ROOT/qt-creator/monokai_night_shift_v3.xml" "$HOME/.config/QtProject/qtcreator/styles/monokai_night_shift_v3.xml"
   link_file "$DOTFILES_ROOT/mc" "$HOME/.config/mc"
   link_file "$DOTFILES_ROOT/tmux/.tmux.conf" "$HOME/.tmux.conf"
 
@@ -156,22 +151,15 @@ install_fonts () {
   info '    done'
 }
 
-install_zsh_plugins() {
-  if [[ -d "$HOME/.oh-my-zsh" ]]; then
-    if [ ! -d "$HOME/.oh-my-zsh/custom/plugins/zsh-autosuggestions" ]; then
-        info 'Install zsh-autosuggestions'
-        git clone git://github.com/zsh-users/zsh-autosuggestions $HOME/.oh-my-zsh/custom/plugins/zsh-autosuggestions
-        info '    done'
-    fi
-
-    if [ ! -d "$HOME/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting" ]; then
-        info 'Install zsh-syntax-highlighting'
-        git clone https://github.com/zsh-users/zsh-syntax-highlighting.git $HOME/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting
-        info '    done'
-    fi
+install_antigen() {
+  info 'installing Antigen'
+  if [[ -d "$HOME/.antigen" ]]; then
+    mkdir -p $HOME/.antigen
+    curl -L git.io/antigen > $HOME/antigen.zsh
   fi
+  info '    done'
 }
 
+install_antigen
 install_dotfiles
 install_fonts
-install_zsh_plugins
