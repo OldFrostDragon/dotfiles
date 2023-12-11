@@ -1,11 +1,21 @@
 #!/bin/bash
 
-# copied from https://github.com/holman/dotfiles/blob/master/script/bootstrap
-DOTFILES_ROOT=$(pwd -P)
-
 set -e
 
+DOTFILES_ROOT=$(pwd -P)
+
+OS_IS_DARWIN=false
+if [ "$(uname -s)" == "Darwin" ]; then
+    OS_IS_DARWIN=true
+fi
+
+# copied from https://github.com/holman/dotfiles/blob/master/script/bootstrap
+
 echo ''
+
+log_action () {
+  printf "\r  [ \033[00;34mDO\033[0m ] $1\n"
+}
 
 info () {
   printf "\r  [ \033[00;34m..\033[0m ] $1\n"
@@ -95,39 +105,11 @@ link_file () {
 
   if [ "$skip" != "true" ]  # "false" or empty
   then
+    target_dir=$(dirname "$2")
+    mkdir -p "$target_dir"
     ln -s "$1" "$2"
     success "linked $1 to $2"
   fi
-}
-
-install_dotfiles () {
-  info 'installing dotfiles'
-
-  local overwrite_all=false backup_all=false skip_all=false
-  mkdir -p "$HOME/.config/QtProject/qtcreator/styles/"
-  mkdir -p "$HOME/.fonts/"
-  mkdir -p "$HOME/.config/mc"
-
-  dst="$HOME/.$(basename "${src%.*}")"
-  link_file "$DOTFILES_ROOT/git/.gitconfig" "$HOME/.gitconfig"
-  link_file "$DOTFILES_ROOT/git/.gitexcludes" "$HOME/.gitexcludes"
-  link_file "$DOTFILES_ROOT/tig/.tigrc" "$HOME/.tigrc"
-  link_file "$DOTFILES_ROOT/vim/.vimrc" "$HOME/.vimrc"
-  link_file "$DOTFILES_ROOT/vim/.vim" "$HOME/.vim"
-  link_file "$DOTFILES_ROOT/zsh/.zshrc" "$HOME/.zshrc"
-  link_file "$DOTFILES_ROOT/qt-creator/monokai_night_shift_v3.xml" "$HOME/.config/QtProject/qtcreator/styles/monokai_night_shift_v3.xml"
-  link_file "$DOTFILES_ROOT/mc" "$HOME/.config/mc"
-  link_file "$DOTFILES_ROOT/tmux/.tmux.conf" "$HOME/.tmux.conf"
-
-  # create symlinks to bin scripts
-  for src in $(find -H "$DOTFILES_ROOT/bin" -maxdepth 1 -type f)
-  do
-    file_from_src=$(basename $src)
-    dst="/usr/local/bin/$file_from_src"
-    link_file "$src" "$dst"
-  done
-
-  info '    done'
 }
 
 show_progress () {
@@ -144,22 +126,66 @@ show_progress () {
 }
 
 install_fonts () {
-  info 'installing fonts'
-  find "$DOTFILES_ROOT/fonts" -name "*.ttf" -exec cp -f {} $HOME/.fonts \;
-  fc-cache -fv > /dev/null &
-  show_progress $!
-  info '    done'
-}
-
-install_antigen() {
-  info 'installing Antigen'
-  if [[ -d "$HOME/.antigen" ]]; then
-    mkdir -p $HOME/.antigen
-    curl -L git.io/antigen > $HOME/antigen.zsh
+  log_action 'Installing fonts...'
+  
+  FONT_DIR="$HOME/.fonts"
+  if $OS_IS_DARWIN; then
+    FONT_DIR="$HOME/Library/Fonts"
   fi
-  info '    done'
+  
+  mkdir -p "$FONT_DIR"
+  find "$DOTFILES_ROOT/fonts" \( -name '*.ttf' -o -name '*.otf' \) -exec cp -f {} "$FONT_DIR" \;
+  
+  if ! $OS_IS_DARWIN; then
+    fc-cache -fv > /dev/null &
+    show_progress $!
+  fi
+  
+  success 'Fonts installed.'
 }
 
-install_antigen
+install_dotfiles () {
+  log_action 'Installing dotfiles...'
+
+  local overwrite_all=false backup_all=false skip_all=false
+
+  link_file "$DOTFILES_ROOT/git/.gitconfig" "$HOME/.gitconfig"
+  link_file "$DOTFILES_ROOT/git/.gitexcludes" "$HOME/.gitexcludes"
+  link_file "$DOTFILES_ROOT/tig/.tigrc" "$HOME/.tigrc"
+  link_file "$DOTFILES_ROOT/vim/.vimrc" "$HOME/.vimrc"
+  link_file "$DOTFILES_ROOT/vim/.vim" "$HOME/.vim"
+  link_file "$DOTFILES_ROOT/qt-creator/monokai_night_shift_v3.xml" "$HOME/.config/QtProject/qtcreator/styles/monokai_night_shift_v3.xml"
+  link_file "$DOTFILES_ROOT/mc" "$HOME/.config/mc"
+  link_file "$DOTFILES_ROOT/tmux/.tmux.conf" "$HOME/.tmux.conf"
+  link_file "$DOTFILES_ROOT/kitty.conf" "$HOME/.config/kitty/kitty.conf"
+  link_file "$DOTFILES_ROOT/fish/config.fish" "$HOME/.config/fish/config.fish"
+  link_file "$DOTFILES_ROOT/fish/fish_plugins" "$HOME/.config/fish/fish_plugins"
+
+  # macos uses zsh by default. Make it compatible with emacs
+  if $OS_IS_DARWIN; then
+    link_file "$DOTFILES_ROOT/zsh/.zshrc" "$HOME/.zshrc"
+  fi
+  success 'All done'
+  echo ''
+}
+
+install_fisher() {
+    log_action "Installing Fisher..."
+
+    # Install Fisher if not already installed
+    local fisher_file="$HOME/.config/fish/functions/fisher.fish"
+    if [ ! -f "$fisher_file" ]; then
+        fish -c "curl --proto =https --tlsv1.2 -sL https://git.io/fisher | source && fisher install jorgebucaran/fisher"
+        success "Fisher installed."
+    else
+        success "Fisher is already installed. Nothing to do."
+    fi
+
+    echo ''
+}
+
+# Run the function
+install_fisher
+
 install_dotfiles
 install_fonts

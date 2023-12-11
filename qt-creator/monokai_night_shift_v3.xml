@@ -5,6 +5,8 @@
   <style name="Selection" background="#11404c"/>
   <style name="LineNumber" foreground="#888888" background="#272822"/>
   <style name="SearchResult" background="#555500"/>
+  <style name="SearchResultAlt1" foreground="#000033" background="#b6ccff"/>
+  <style name="SearchResultAlt2" foreground="#330000" background="#ffb6cc"/>
   <style name="SearchScope" background="#222200"/>
   <style name="Parentheses" foreground="#ffffff" background="#11404c"/>
   <style name="ParenthesesMismatch" background="#ff00ff"/>
@@ -18,6 +20,7 @@
   <style name="String" foreground="#e0a000"/>
   <style name="Type" foreground="#ff8080"/>
   <style name="Local" foreground="#b8efe6"/>
+  <style name="Parameter" foreground="#245bae"/>
   <style name="Global"/>
   <style name="Field" foreground="#66d9ef"/>
   <style name="Static" foreground="#55ff55" italic="true"/>
@@ -26,6 +29,8 @@
   <style name="Keyword" foreground="#78d7ec" italic="true"/>
   <style name="PrimitiveType" foreground="#ff8080"/>
   <style name="Operator" foreground="#a6e22e"/>
+  <style name="Overloaded Operator" foreground="#00677c"/>
+  <style name="Punctuation"/>
   <style name="Preprocessor" foreground="#f92672"/>
   <style name="Label" foreground="#ffff55"/>
   <style name="Comment" foreground="#75715e" italic="true"/>
@@ -55,9 +60,16 @@
   <style name="DiffDestLine" background="#2d8c2d"/>
   <style name="DiffDestChar" foreground="#000000" background="#41c341"/>
   <style name="LogChangeLine" foreground="#c00000"/>
+  <style name="LogAuthorName" foreground="#007af4"/>
+  <style name="LogCommitDate" foreground="#006600"/>
+  <style name="LogCommitHash" foreground="#ff0000"/>
+  <style name="LogCommitSubject"/>
+  <style name="LogDecoration" foreground="#ff00ff"/>
   <style name="Warning" underlineColor="#ffbe00" underlineStyle="SingleUnderline"/>
   <style name="WarningContext" underlineColor="#ffbe00" underlineStyle="DotLine"/>
   <style name="Error" underlineColor="#ff0000" underlineStyle="SingleUnderline"/>
   <style name="ErrorContext" underlineColor="#ff0000" underlineStyle="DotLine"/>
   <style name="Declaration"/>
+  <style name="FunctionDefinition"/>
+  <style name="OutputArgument" italic="true"/>
 </style-scheme>
