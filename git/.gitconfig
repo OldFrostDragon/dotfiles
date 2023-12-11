@@ -18,6 +18,7 @@
     ; Check that all submodules have been properly pushed before pushing the
     ; main project.
     recurseSubmodules = check
+    autoSetupRemote = true
 
 [rerere]
     enabled = true
