@@ -156,6 +156,7 @@ install_dotfiles () {
   link_file "$DOTFILES_ROOT/vim/.vim" "$HOME/.vim"
   link_file "$DOTFILES_ROOT/qt-creator/monokai_night_shift_v3.xml" "$HOME/.config/QtProject/qtcreator/styles/monokai_night_shift_v3.xml"
   link_file "$DOTFILES_ROOT/mc" "$HOME/.config/mc"
+  link_file "$DOTFILES_ROOT/mc/catppuccin.ini" "$HOME/.local/share/mc/skins/catppuccin.ini"
   link_file "$DOTFILES_ROOT/tmux/.tmux.conf" "$HOME/.tmux.conf"
   link_file "$DOTFILES_ROOT/kitty.conf" "$HOME/.config/kitty/kitty.conf"
   link_file "$DOTFILES_ROOT/fish/config.fish" "$HOME/.config/fish/config.fish"
