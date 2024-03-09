@@ -13,6 +13,9 @@
 [status]
     submoduleSummary = true
 
+[fetch]
+    prune = true
+
 [push]
     default = simple
     ; Check that all submodules have been properly pushed before pushing the
@@ -26,6 +29,8 @@
 [rebase]
     ; Automatically stash before a rebase and unstash afterwards.
     autoStash = true
+    ; automatically apply fixups
+    autosquash = true
     
 [merge]
     keepBackup = false;
@@ -40,31 +45,36 @@
     trustExitCode = false
     keepBackup = false
 
-[diff]
-    tool = p4merge
-    submodule = log
-    renames = copies
-    renameLimit = 10000
-
 [difftool]
-       prompt = false
+    prompt = false
+
+# [diff]
+#     tool = p4merge
+#     submodule = log
+#     renames = copies
+#     renameLimit = 10000
        
-[difftool "p4merge"]
-       cmd = p4merge "$LOCAL" "$REMOTE"
-       keepTemporaries = false
-       trustExitCode = false
-       keepBackup = false
-   
+# [difftool "p4merge"]
+#        cmd = p4merge "$LOCAL" "$REMOTE"
+#        keepTemporaries = false
+#        trustExitCode = false
+#        keepBackup = false
+
+[diff]
+    tool = difftastic
+
+[difftool "difftastic"]
+    cmd = difft "$LOCAL" "$REMOTE"
+
+[pager]
+    difftool = true
+
 [alias]
+    dft = difftool
     authors = "!git log --pretty=format:%aN | sort | uniq -c | sort -rn"
-    br = branch -vv
-    bra = branch -vv --all
     conflicts = diff --name-only --diff-filter=U --relative
-    da = diff HEAD
-    ds = diff --staged
     ignored = ls-files --exclude-standard --ignored --others
     # logs
-    # lg = log --graph --pretty=format:'%C(red)%h%C(reset) -%C(yellow)%d%C(reset) %s %C(green)(%cr) %C(blue)<%an>%C(reset)' --abbrev-commit --date=relative
     l = "!git --no-pager log -20 --pretty='format:%C(yellow)%h %C(green)%ai %C(bold blue)%an %C(red)%d%C(reset) %s'; echo"
     ll = log --pretty='format:%C(yellow)%h %C(green)%ai %C(bold blue)%an %C(red)%d%C(reset) %s'
     lf = log --name-status --pretty='format:%C(yellow)%h %C(green)%ai %C(bold blue)%an %C(red)%d%C(reset) %s'
@@ -82,35 +92,36 @@
     pretty = "Commit:  %C(yellow)%H%nAuthor:  %C(green)%aN <%aE>%nDate:    (%C(red)%ar%Creset) %ai%nSubject: %s%n%n%b"
 
 [color "diff"]
-       plain = normal
-       meta = bold
-       frag = cyan
-       old = red
-       new = green
-       commit = yellow
-       whitespace = normal red
+    plain = normal
+    meta = bold
+    frag = cyan
+    old = red
+    new = green
+    commit = yellow
+    whitespace = normal red
 
 [color "branch"]
-       current = green
-       local = normal
-       remote = red
-       plain = normal
+    current = green
+    local = normal
+    remote = red
+    plain = normal
 
 [color "status"]
-       header = normal
-       added = red
-       updated = green
-       changed = red
-       untracked = red
-       nobranch = red
+    header = normal
+    added = red
+    updated = green
+    changed = red
+    untracked = red
+    nobranch = red
 
 [color "grep"]
-       match = normal
+    match = normal
 
 [color "interactive"]
-       prompt = normal
-       header = normal
-       help = normal
-       error = normal
+    prompt = normal
+    header = normal
+    help = normal
+    error = normal
+
 [init]
-	defaultBranch = master
+    defaultBranch = master
