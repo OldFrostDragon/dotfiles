@@ -4,4 +4,6 @@ end
 
 function fish_greeting
     # do nothing
-end 
+end
+
+abbr --add lg lazygit 
