@@ -23,6 +23,9 @@
     recurseSubmodules = check
     autoSetupRemote = true
 
+[pull]
+    rebase = true
+
 [rerere]
     enabled = true
 
@@ -70,7 +73,7 @@
     difftool = true
 
 [alias]
-    dft = difftool
+    dt = difftool
     authors = "!git log --pretty=format:%aN | sort | uniq -c | sort -rn"
     conflicts = diff --name-only --diff-filter=U --relative
     ignored = ls-files --exclude-standard --ignored --others
@@ -81,12 +84,17 @@
     lp = log --patch --format=fuller
     lg = log --graph --pretty='format:%C(yellow)%h %C(green)%ai %C(bold blue)%an %C(red)%d%C(reset) %s'
     lga = log --graph --branches --remotes --tags --pretty='format:%C(yellow)%h %C(green)%ai %C(bold blue)%an %C(red)%d%C(reset) %s'
-    pb = "!git push --set-upstream origin `git rev-parse --abbrev-ref HEAD`"
-    undo = "!git reset --soft HEAD^ && git reset"
+
+    # wip commits
+    undo = reset HEAD~1 --mixed
     wip = "!git add --all && git commit -m 'WIP'"
+    rewip = "!f() { text=$(git show -s --format=%s); if [ \"$text\" = \"WIP\" ]; then git add --all && git commit --amend --no-edit; fi; }; f"
 
     # merge request checkout from Gitlab. Use 'git mr 5' to checkout merge request with id 5 to local branch
     mr = !sh -c 'git fetch origin merge-requests/$1/head:mr-origin-$1 && git checkout mr-origin-$1' -
+
+    # (fzf) switch to local branch
+    sw = "!f() { selected_br=$(git branch --sort=committerdate | fzf --height=20% --reverse --info=inline); if [ ! -z $selected_br ]; then git checkout $selected_br; fi; }; f"
 
 [format]
     pretty = "Commit:  %C(yellow)%H%nAuthor:  %C(green)%aN <%aE>%nDate:    (%C(red)%ar%Creset) %ai%nSubject: %s%n%n%b"
